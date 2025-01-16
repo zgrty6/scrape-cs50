@@ -1,17 +1,20 @@
 #####################################################################
-# Script to Download cs50 using the week url
-# Example url: https://cs50.harvard.edu/x/2025/weeks/0/
-# Downloads most of the materials week by week in seperate folders
-# Used procedural programming just wrote whatever thought in mind
-# OOPS could have been better but lazy to even think rn
-# Used:
-# requests to download files from url
-# shutil to copy file object
-# time to wait for scroll
-# pathlib to make folders n files
-# selenium to parse html tree and navigate the web
-# tqdm for download progress
-######################################################################
+# Script to Download cs50 using the week url                        #
+# Example url: https://cs50.harvard.edu/x/2025/weeks/0/             #
+# Downloads most of the materials week by week in seperate folders  #
+# Used procedural programming just wrote whatever thought in mind   #
+# OOPS could have been better but lazy to even think rn             #
+# Used:                                                             #
+# requests to download files from url                               #
+# shutil to copy file object                                        #
+# time to wait for scroll                                           #
+# pathlib to make folders n files                                   #
+# selenium to parse html tree and navigate the web                  #
+# tqdm for download progress                                        #
+# Possible errors                                                   #
+# didn't clean folder text for illegal characters might look into   #
+# it if encounter myself maybe                                      #
+#####################################################################
 
 import requests
 import shutil
@@ -56,7 +59,7 @@ def download_file(
     else:   # otherwise download file
         path.mkdir(parents=True, exist_ok=True)
 
-        print(f"Downloading--------> {file.name}")
+        print(f"\nDownloading--------> {file.name}")
         # COPIED THIS PART from alpharithms even the comments sorry
         # make an HTTP request within a context manager
         with requests.get(url, stream=True) as res:
@@ -70,7 +73,6 @@ def download_file(
                 # save the output to a file
                 with open(f"./{path}/{file}", 'wb') as output:
                     shutil.copyfileobj(raw, output)
-        print("\n")
 # -----------------------------------------------------------------------------------------
 
 # gettin lecture
@@ -79,6 +81,7 @@ def lecture_elems(
     main_folder: str,
     driver
 ):
+    print("\n----------Getting Lecture----------")
     lecture_path = Path(f"{main_folder}/lecture")
     for i in lecture_ul:
         # Notes url from lecture
@@ -169,9 +172,11 @@ def shorts_urls(shorts_ul: list):
     return short_dict
 
 def shorts_elems(short: dict, main_folder: str):
+    print("\n----------Getting Shorts----------")
     count = 0
     for key, value in short.items():
         count += 1
+        print(f"\n-----{count}-{convert_txt(key)}-----")
         path = Path(f"{main_folder}/shorts/{count}-{convert_txt(key)}")
         start_short_driver(convert_txt(key), value, path)
 
@@ -228,6 +233,7 @@ def start_short_driver(title: str, url: str, path: Path):
 
 # gettin section
 def section_elems(url: str, main_folder: str):
+    print("\n----------Getting Section----------")
     path = Path(f"{main_folder}/sections")
 
     sections_driver = webdriver.Firefox(options=options)
@@ -312,7 +318,6 @@ def section_elems(url: str, main_folder: str):
 
 def main():
     uri = input("Enter URL:")
-    print("\n")
     driver = webdriver.Firefox(options=options)
     driver.get(uri)
 
