@@ -186,6 +186,7 @@ def start_short_driver(title: str, url: str, path: Path):
 
     main_ul = shorts_driver.find_element(By.TAG_NAME, "main").find_element(By.TAG_NAME, "ul").find_elements(By.XPATH, "./li")
     for i in main_ul:
+        # Slides
         if i.find_element(By.TAG_NAME, "a").text == "Slides":
             slides_pdf = i.find_element(By.TAG_NAME, "a").get_attribute("href")
             download_file(
@@ -194,22 +195,28 @@ def start_short_driver(title: str, url: str, path: Path):
                 slides_pdf,
                 "pdf"
             )
+        
+        # Subtitles
         elif i.find_element(By.TAG_NAME, "a").text == "Subtitles":
             subtitles_url = i.find_element(By.TAG_NAME, "a").get_attribute("href")
             download_file(
                 path.joinpath(i.find_element(By.TAG_NAME, "a").text.lower()),
                 title+"-"+i.find_element(By.TAG_NAME, "a").text.lower(),
                 subtitles_url,
-                "pdf"
+                "srt"
             )
+        
+        # Transcript
         elif i.find_element(By.TAG_NAME, "a").text == "Transcript":
             transcript_url = i.find_element(By.TAG_NAME, "a").get_attribute("href")
             download_file(
                 path.joinpath(i.find_element(By.TAG_NAME, "a").text.lower()),
                 title+"-"+i.find_element(By.TAG_NAME, "a").text.lower(),
                 transcript_url,
-                "pdf"
+                "txt"
             )
+
+        # Video
         elif len(i.find_elements(By.XPATH, "./span")) > 1 and i.find_elements(By.XPATH, "./span")[1].text == "Video":
             video_ul = i.find_element(By.TAG_NAME, "ul").find_elements(By.XPATH, "./li")
             cs50_video_player_url = video_ul[0].find_element(By.TAG_NAME, "a").get_attribute("href")
@@ -241,6 +248,7 @@ def section_elems(url: str, main_folder: str):
 
     main_ul = sections_driver.find_element(By.TAG_NAME, "main").find_element(By.TAG_NAME, "ul").find_elements(By.XPATH, "./li")
     for i in main_ul:
+        # Audio
         if i.find_element(By.TAG_NAME, "a").text == "Audio":
             audio_url = i.find_element(By.TAG_NAME, "a").get_attribute("href")
             download_file(
@@ -250,6 +258,7 @@ def section_elems(url: str, main_folder: str):
                 "mp3"
             )
 
+        # Slides
         elif len(i.find_elements(By.XPATH, "./span")) > 1 and i.find_elements(By.XPATH, "./span")[1].text == "Slides":
             slides_pdf = i.find_element(By.TAG_NAME, "ul").find_element(By.TAG_NAME, "li").find_element(By.TAG_NAME, "a").get_attribute("href")
             download_file(
@@ -259,6 +268,7 @@ def section_elems(url: str, main_folder: str):
                 "pdf"
             )
 
+        # Source Code
         elif len(i.find_elements(By.XPATH, "./span")) > 1 and i.find_elements(By.XPATH, "./span")[1].text == "Source Code":
             source_code_ul = i.find_element(By.TAG_NAME, "ul").find_elements(By.XPATH, "./li")
             indexed_url = source_code_ul[0].find_element(By.TAG_NAME, "a").get_attribute("href")
@@ -277,6 +287,7 @@ def section_elems(url: str, main_folder: str):
                 "zip"
             )
 
+        # Subtitles
         elif i.find_element(By.TAG_NAME, "a").text == "Subtitles":
             subtitles_url = i.find_element(By.TAG_NAME, "a").get_attribute("href")
             download_file(
@@ -286,6 +297,7 @@ def section_elems(url: str, main_folder: str):
                 "srt"
             )
 
+        # Transcript
         elif i.find_element(By.TAG_NAME, "a").text == "Transcript":
             transcript_url = i.find_element(By.TAG_NAME, "a").get_attribute("href")
             download_file(
@@ -295,6 +307,7 @@ def section_elems(url: str, main_folder: str):
                 "txt"
             )
 
+        # Video
         elif len(i.find_elements(By.XPATH, "./span")) > 1 and i.find_elements(By.XPATH, "./span")[1].text == "Video":
             video_ul = i.find_element(By.TAG_NAME, "ul").find_elements(By.XPATH, "./li")
             cs50_video_player_url = video_ul[0].find_element(By.TAG_NAME, "a").get_attribute("href")

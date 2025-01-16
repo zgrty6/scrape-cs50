@@ -19,3 +19,9 @@ python scrape-cs50.py
 ```
 2. Copy/Paste url and it will download files in the same folder as the script.
 ![Screenshot](https://github.com/user-attachments/assets/d8159426-0d7f-4fce-a9ac-f1d16202d49b)
+
+## Works with
+Tested with year 2025
+
+## Changes needed
+Need to click on unordered lists to get the element content (For 2024 and below)
