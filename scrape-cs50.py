@@ -165,9 +165,9 @@ def lecture_elems(
 # --------------------------------------------------------------------------------------------------
 
 # gettin shorts
-def shorts_urls(shorts_ul: list):
+def shorts_urls(shorts_lis: list):
     short_dict = {}
-    for i in shorts_ul:
+    for i in shorts_lis:
         short_dict.update({i.find_element(By.TAG_NAME, "a").text: i.find_element(By.TAG_NAME, "a").get_attribute("href")})
     return short_dict
 
@@ -361,8 +361,11 @@ def main():
 
         # shorts unordered list ---> list items list
         elif len(i.find_elements(By.XPATH, "./span")) > 1 and i.find_elements(By.XPATH, "./span")[1].text == "Shorts":
-            shorts_ul = i.find_element(By.TAG_NAME, "ol").find_elements(By.XPATH, "./li")
-            short_dict = shorts_urls(shorts_ul)
+            try:
+                shorts_lis = i.find_element(By.TAG_NAME, "ol").find_elements(By.XPATH, "./li")
+            except:
+                shorts_lis = i.find_element(By.TAG_NAME, "ul").find_elements(By.XPATH, "./li")
+            short_dict = shorts_urls(shorts_lis)
             shorts_elems(
                 short_dict,
                 main_fldr
